@@ -1,0 +1,15 @@
+# SELinux context overrides for overlay layer
+# Format: <path_in_system> <selinux_context>
+# Note: Any file not listed here defaults automatically to u:object_r:system_file:s0 (or u:object_r:vendor_file:s0 for vendor)
+
+/system/bin/multi_ir            u:object_r:multi_ir_exec:s0
+/system/bin/pre_install.sh      u:object_r:phhsu_exec:s0
+/system/etc/cedarc.conf         u:object_r:vendor_configs_file:s0
+/system/etc/cedarx.conf         u:object_r:vendor_configs_file:s0
+/system/etc/cfg-videoplayer.xml u:object_r:vendor_configs_file:s0
+/vendor/build.prop              u:object_r:vendor_file:s0
+/vendor/etc/remote.txt          u:object_r:vendor_configs_file:s0
+/system/etc/remote.txt          u:object_r:system_file:s0
+/system/etc/init/hbg_remote.rc  u:object_r:system_file:s0
+/vendor/usr/keylayout/Vendor_2b54_Product_1600.kl u:object_r:vendor_keylayout_file:s0
+/product/build.prop             u:object_r:system_file:s0

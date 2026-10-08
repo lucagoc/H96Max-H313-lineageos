@@ -1,0 +1,8 @@
+# Relative paths to remove from the system image when overlay-gms-full is applied
+# One path per line. Lines starting with '#' are ignored.
+
+# Remove stock AOSP Leanback keyboard (replaced by GBoard)
+/system/app/LeanbackIME
+
+# Remove CouchyTV installed by overlay layer (replaced by Google TVLauncher)
+/system/app/CouchyTV

@@ -1,0 +1,17 @@
+# Sorties de compilation et dossiers temporaires
+output/
+.build_tmp/
+.build_tmp*
+out/
+tmp/
+*.dump/
+
+# Cache local pour les téléchargements / extractions volumineuses
+cache/
+
+# Python cache
+*.pyc
+__pycache__/
+
+phoenix.img
+layers/overlay/super/system.img

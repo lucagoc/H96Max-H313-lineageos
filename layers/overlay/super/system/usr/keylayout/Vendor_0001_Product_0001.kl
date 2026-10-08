@@ -1,0 +1,28 @@
+# Keylayout officiel H96 Max H313 - Télécommande IR
+# Format Android 11 standard pour sunxi-ir (addr 0xfb04)
+
+key 8     POWER
+key 74    MENU
+key 69    DPAD_UP
+key 70    DPAD_DOWN
+key 71    DPAD_LEFT
+key 72    DPAD_RIGHT
+key 68    DPAD_CENTER
+key 26    BACK
+key 27    DEL
+key 45    HOME
+key 2     VOLUME_UP
+key 3     VOLUME_DOWN
+key 9     VOLUME_MUTE
+key 0     CHANNEL_UP
+key 1     CHANNEL_DOWN
+key 97    1
+key 98    2
+key 99    3
+key 100   4
+key 101   5
+key 102   6
+key 103   7
+key 104   8
+key 105   9
+key 96    0

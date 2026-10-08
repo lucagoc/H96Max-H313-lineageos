@@ -1,0 +1,13 @@
+# Relative paths to remove from the system image
+# One path per line. Lines starting with '#' are ignored.
+
+# Remove built-in phh-su daemon (Magisk is used instead)
+/system/bin/phh-su
+/system/etc/init/su.rc
+
+# Remove pre-installed TVLauncher
+/system/priv-app/TVLauncherNoGMS
+/system/priv-app/TVRecommendationsNoGMS
+
+# Sample Leanback Launcher
+/system/product/priv-app/TvSampleLeanbackLauncher

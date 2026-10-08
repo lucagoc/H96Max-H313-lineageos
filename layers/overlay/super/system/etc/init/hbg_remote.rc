@@ -1,0 +1,10 @@
+# HBG Remote Audio directories and configuration
+on post-fs-data
+    mkdir /data/vendor/HBG 0777 audioserver audio
+    mkdir /data/HBG 0777 audioserver audio
+    copy /vendor/etc/remote.txt /data/vendor/HBG/remote.txt
+    copy /vendor/etc/remote.txt /data/HBG/remote.txt
+    chmod 0666 /data/vendor/HBG/remote.txt
+    chmod 0666 /data/HBG/remote.txt
+    chown audioserver audio /data/vendor/HBG/remote.txt
+    chown audioserver audio /data/HBG/remote.txt
