@@ -79,6 +79,11 @@ command -v e2fsck >/dev/null 2>&1 || { echo "[!] Error: e2fsck is required but n
 command -v resize2fs >/dev/null 2>&1 || { echo "[!] Error: resize2fs is required but not found in PATH."; exit 1; }
 [ -x "$IMGREPACKER" ] || { echo "[!] Error: imgrepacker not found or not executable in $LIB_DIR/imgrepacker"; exit 1; }
 
+# Check and fetch external resources if needed
+if [ -f "$SCRIPT_DIR/lib/fetch_resources.sh" ]; then
+    "$SCRIPT_DIR/lib/fetch_resources.sh"
+fi
+
 if [ ! -f "$BASE_PHOENIX" ]; then
     echo "[!] Error: Missing required base firmware image: $BASE_PHOENIX"
     exit 1

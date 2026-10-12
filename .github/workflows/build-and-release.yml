@@ -1,0 +1,83 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ROM Variants and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y \
+            android-sdk-libsparse-utils \
+            e2fsprogs \
+            libc6:i386 \
+            libstdc++6:i386 \
+            zlib1g:i386 \
+            python3 \
+            curl \
+            wget
+
+      - name: Install lpmake and lpunpack
+        run: |
+          echo "[*] Downloading Android lpmake/lpunpack prebuilt tools..."
+          # Note: lpmake / lpunpack prebuilt binary or python fallback
+          if ! command -v lpunpack >/dev/null 2>&1; then
+            if [ -f "$GITHUB_WORKSPACE/lib/lpunpack/lpunpack.py" ]; then
+              sudo ln -sf "$GITHUB_WORKSPACE/lib/lpunpack/lpunpack.py" /usr/local/bin/lpunpack
+              sudo chmod +x /usr/local/bin/lpunpack
+            fi
+          fi
+          if ! command -v lpmake >/dev/null 2>&1; then
+            # Download static or prebuilt lpmake / otatools for linux
+            curl -fsSL https://github.com/lonelad/lpmake/releases/download/v1.0/lpmake -o /tmp/lpmake || \
+            curl -fsSL https://raw.githubusercontent.com/cfig/Android_boot_image_editor/master/bin/linux/x86_64/lpmake -o /tmp/lpmake
+            chmod +x /tmp/lpmake
+            sudo mv /tmp/lpmake /usr/local/bin/lpmake
+          fi
+
+      - name: Download external resources
+        run: |
+          chmod +x lib/fetch_resources.sh
+          ./lib/fetch_resources.sh
+
+      - name: Build ROMs
+        run: |
+          chmod +x build.sh
+          ./build.sh --all
+
+      - name: Generate Release Tag and Changelog
+        id: release_info
+        run: |
+          RELEASE_DATE=$(date +'%Y%m%d-%H%M')
+          TAG_NAME="v${RELEASE_DATE}"
+          echo "tag_name=${TAG_NAME}" >> "$GITHUB_OUTPUT"
+          echo "release_title=LineageOS 18.1 H96Max H313 (${TAG_NAME})" >> "$GITHUB_OUTPUT"
+
+      - name: Create Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.release_info.outputs.tag_name }}
+          name: ${{ steps.release_info.outputs.release_title }}
+          draft: false
+          prerelease: false
+          files: |
+            output/*.img
+            output/*.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -108,12 +108,6 @@ To build a specific variant (available: `vanilla`, `debug`, `gms_core`, `gms_ful
 ./build.sh --variant vanilla
 ```
 
-To build a debug variant (includes UART debug output and verbose kernel loglevel `loglevel=8` via `overlay-debug`):
-
-```bash
-./build.sh --variant debug
-```
-
 To build all configured variants sequentially:
 
 ```bash

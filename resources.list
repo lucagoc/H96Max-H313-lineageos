@@ -1,0 +1,5 @@
+# Format: <relative_path> <url> [sha256]
+# Les lignes vides et commençant par '#' sont ignorées.
+
+phoenix.img https://github.com/lucagoc/H96Max-H313-lineageos/releases/download/v0.0/phoenix.img
+layers/overlay/super/system.img https://github.com/lucagoc/H96Max-H313-lineageos/releases/download/v0.0/system.img
