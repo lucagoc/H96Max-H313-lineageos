@@ -20,6 +20,12 @@ CACHE_DIR="$SCRIPT_DIR/cache"
 BOOT_RESOURCE_TOOL="$LIB_DIR/boot_resource.py"
 IMGREPACKER="$LIB_DIR/imgrepacker/imgrepacker"
 
+if [ -f "$LIB_DIR/lpunpack/lpunpack.py" ]; then
+    LPUNPACK_CMD=(python3 "$LIB_DIR/lpunpack/lpunpack.py")
+elif command -v lpunpack >/dev/null 2>&1; then
+    LPUNPACK_CMD=(lpunpack)
+fi
+
 TARGET_DEVICE="H96Max_H313"
 OUTPUT_DIR="$SCRIPT_DIR/output"
 
@@ -73,7 +79,7 @@ done
 
 # Prerequisites check
 command -v lpmake >/dev/null 2>&1 || { echo "[!] Error: lpmake is required but not found in PATH."; exit 1; }
-command -v lpunpack >/dev/null 2>&1 || { echo "[!] Error: lpunpack is required but not found in PATH."; exit 1; }
+[ -n "${LPUNPACK_CMD[*]}" ] || { echo "[!] Error: lpunpack is required (either in PATH or via lib/lpunpack/lpunpack.py)."; exit 1; }
 command -v simg2img >/dev/null 2>&1 || { echo "[!] Error: simg2img is required but not found in PATH."; exit 1; }
 command -v e2fsck >/dev/null 2>&1 || { echo "[!] Error: e2fsck is required but not found in PATH."; exit 1; }
 command -v resize2fs >/dev/null 2>&1 || { echo "[!] Error: resize2fs is required but not found in PATH."; exit 1; }
@@ -129,7 +135,7 @@ ensure_stock_partitions() {
         cp --sparse=always "$super_fex" "$raw_super"
     fi
 
-    lpunpack "$raw_super" "$stock_parts_dir" >/dev/null
+    "${LPUNPACK_CMD[@]}" "$raw_super" "$stock_parts_dir" >/dev/null
 
     # Cleanup temporary dump
     rm -rf "$tmp_dump"

@@ -33,23 +33,15 @@ jobs:
             curl \
             wget
 
-      - name: Install lpmake and lpunpack
+      - name: Install lpmake
         run: |
-          echo "[*] Setting up lpunpack from submodule..."
-          if [ -f "$GITHUB_WORKSPACE/lib/lpunpack/lpunpack.py" ]; then
-            sudo ln -sf "$GITHUB_WORKSPACE/lib/lpunpack/lpunpack.py" /usr/local/bin/lpunpack
-            sudo chmod +x /usr/local/bin/lpunpack
-          fi
-
           echo "[*] Downloading lpmake prebuilt tool..."
-          if ! command -v lpmake >/dev/null 2>&1; then
-            curl -fsSL https://raw.githubusercontent.com/whyshhnuv/lpunpack-lpmake-mirror/Linux-debian/binary/lpmake -o /tmp/lpmake
-            chmod +x /tmp/lpmake
-            sudo mv /tmp/lpmake /usr/local/bin/lpmake
-          fi
+          curl -fsSL https://raw.githubusercontent.com/whyshhnuv/lpunpack-lpmake-mirror/Linux-debian/binary/lpmake -o /tmp/lpmake
+          chmod +x /tmp/lpmake
+          sudo mv /tmp/lpmake /usr/local/bin/lpmake
 
-          echo "[*] Checking tools..."
-          lpunpack --help || true
+          echo "[*] Verifying tools..."
+          python3 lib/lpunpack/lpunpack.py --help || true
           lpmake 2>&1 || true
 
       - name: Download external resources
