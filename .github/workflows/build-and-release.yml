@@ -35,21 +35,22 @@ jobs:
 
       - name: Install lpmake and lpunpack
         run: |
-          echo "[*] Downloading Android lpmake/lpunpack prebuilt tools..."
-          # Note: lpmake / lpunpack prebuilt binary or python fallback
-          if ! command -v lpunpack >/dev/null 2>&1; then
-            if [ -f "$GITHUB_WORKSPACE/lib/lpunpack/lpunpack.py" ]; then
-              sudo ln -sf "$GITHUB_WORKSPACE/lib/lpunpack/lpunpack.py" /usr/local/bin/lpunpack
-              sudo chmod +x /usr/local/bin/lpunpack
-            fi
+          echo "[*] Setting up lpunpack from submodule..."
+          if [ -f "$GITHUB_WORKSPACE/lib/lpunpack/lpunpack.py" ]; then
+            sudo ln -sf "$GITHUB_WORKSPACE/lib/lpunpack/lpunpack.py" /usr/local/bin/lpunpack
+            sudo chmod +x /usr/local/bin/lpunpack
           fi
+
+          echo "[*] Downloading lpmake prebuilt tool..."
           if ! command -v lpmake >/dev/null 2>&1; then
-            # Download static or prebuilt lpmake / otatools for linux
-            curl -fsSL https://github.com/lonelad/lpmake/releases/download/v1.0/lpmake -o /tmp/lpmake || \
-            curl -fsSL https://raw.githubusercontent.com/cfig/Android_boot_image_editor/master/bin/linux/x86_64/lpmake -o /tmp/lpmake
+            curl -fsSL https://raw.githubusercontent.com/whyshhnuv/lpunpack-lpmake-mirror/Linux-debian/binary/lpmake -o /tmp/lpmake
             chmod +x /tmp/lpmake
             sudo mv /tmp/lpmake /usr/local/bin/lpmake
           fi
+
+          echo "[*] Checking tools..."
+          lpunpack --help || true
+          lpmake 2>&1 || true
 
       - name: Download external resources
         run: |
