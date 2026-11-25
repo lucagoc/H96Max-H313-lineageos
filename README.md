@@ -29,13 +29,21 @@ Custom Android TV ROM for **Allwinner H313** SoC TV boxes (especially `H96 Max`)
 | **Ports** | 2x USB 2.0 (1x Host, 1x OTG), MicroSD card slot, IR receiver |
 | **Power** | DC 5V / 2A |
 
-![PCB1](.github/pcb1.png)
 
+### Revision A
+
+![PCB1](.github/pcb1.png)
 ![PCB2](.github/pcb2.png)
+
+### Revision B
+
+![PCB_B1](.github/pcb_b1.png)
 
 ## Installation
 
 ### Download ROM
+
+**📥 [Download the ROM here](https://github.com/lucagoc/H96Max-H313-lineageos/releases)**
 
 Three build variants are available:
 
